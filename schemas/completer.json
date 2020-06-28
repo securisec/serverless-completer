@@ -1,0 +1,474 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "Serverless completer Schema",
+	"type": "object",
+	"id": "https://example.com/completer.json",
+	"required": ["service"],
+	"properties": {
+		"service": {
+			"oneOf": [
+				{ "type": "string" },
+				{
+					"type": "object",
+					"properties": {
+						"name": { "type": "string" },
+						"awsKmsKeyArn": {
+							"type": "string",
+							"description": "Optional KMS key arn which will be used for encryption for all functions"
+						}
+					}
+				}
+			]
+		},
+		"plugins": {
+			"type": "array",
+			"items": {
+				"type": "string",
+				"anyOf": [
+					{ "type": "string" },
+					{ "type": "string", "enum": ["serverless-localstack"] }
+				]
+			}
+		},
+		"custom": {
+			"type": "object",
+			"anyOf": [
+				{
+					"patternProperties": {
+						"^.*$": {
+							"type": "object"
+						}
+					}
+				},
+				{
+					"$ref": "#/definitions/CustomLocalstack"
+				}
+			]
+		},
+		"functions": {
+			"type": "object",
+			"patternProperties": {
+				"^.*$": {
+					"type": "object",
+					"required": ["handler"],
+					"properties": {
+						"runtime": { "$ref": "#/definitions/AWSRunTime" },
+						"handler": { "type": "string" },
+						"name": { "type": "string" },
+						"description": { "type": "string" },
+						"memorySize": { "type": "number" },
+						"reservedConcurrency": { "type": "number" },
+						"provisionedConcurrency": { "type": "number" },
+						"role": { "type": "string" },
+						"awsKmsKeyArn": { "type": "string" },
+						"disableLogs": { "type": "boolean" },
+						"environment": { "type": "object", "patternProperties": {} },
+						"tags": { "type": "object", "patternProperties": {} },
+						"vpc": {
+							"type": "object",
+							"properties": {
+								"securityGroupIds": {
+									"type": "array",
+									"items": { "type": "string" }
+								},
+								"subnetIds": {
+									"type": "array",
+									"items": { "type": "string" }
+								}
+							}
+						},
+						"package": {
+							"type": "object",
+							"properties": {
+								"include": {
+									"type": "array",
+									"items": { "type": "string" }
+								},
+								"exclude": {
+									"type": "array",
+									"items": { "type": "string" }
+								},
+								"individually": { "type": "boolean" },
+								"artifact": { "type": "string" }
+							}
+						},
+						"layers": { "type": "array", "items": { "type": "string" } },
+						"tracing": {
+							"type": "string",
+							"enum": ["Active", "PassThrough"]
+						},
+						"condition": { "type": "string" },
+						"dependsOn": { "type": "array", "items": { "type": "string" } },
+						"destinations": {
+							"type": "object",
+							"properties": {
+								"onSuccess": { "type": "string" },
+								"onFailure": { "type": "string" }
+							}
+						},
+						"events": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"http": {
+										"type": "object",
+										"required": ["path", "method"],
+										"properties": {
+											"path": { "type": "string" },
+											"method": {
+												"anyOf": [
+													{ "type": "string" },
+													{
+														"type": "string",
+														"enum": ["get", "post", "put", "delete"]
+													}
+												]
+											},
+											"cors": { "type": "boolean" },
+											"private": { "type": "boolean" },
+											"authorizer": {
+												"type": "object",
+												"properties": {
+													"name": { "type": "string" },
+													"arn": { "type": "string" },
+													"identitySource": { "type": "string" },
+													"identityValidationExpression": {
+														"type": "string"
+													},
+													"type": {
+														"type": "string",
+														"enum": ["token", "request"]
+													},
+													"resultTtlInSeconds": {
+														"type": "number"
+													}
+												}
+											}
+										}
+									},
+									"httpApi": {
+										"type": "object",
+										"properties": {
+											"method": {
+												"anyOf": [
+													{ "type": "string" },
+													{
+														"type": "string",
+														"enum": ["get", "post", "put", "delete"]
+													}
+												]
+											},
+											"path": { "type": "string" },
+											"authorizer": {
+												"type": "object",
+												"properties": {
+													"name": { "type": "string" },
+													"scopes": {
+														"type": "array",
+														"items": { "type": "string" }
+													}
+												}
+											}
+										}
+									},
+									"websocket": {
+										"type": "object",
+										"properties": {
+											"route": { "type": "string" },
+											"routeResponseSelectionExpression": { "type": "string" },
+											"authorizer": {
+												"type": "object",
+												"properties": {
+													"arn": { "type": "string" },
+													"identitySource": {
+														"type": "array",
+														"items": { "type": "string" }
+													}
+												}
+											}
+										}
+									},
+									"s3": {
+										"type": "object",
+										"properties": {
+											"bucket": { "type": "string" },
+											"event": { "type": "string" },
+											"rules": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"prefix": { "type": "string" },
+														"suffix": { "type": "string" }
+													}
+												}
+											},
+											"existing": { "type": "boolean" }
+										}
+									},
+									"schedule": {
+										"type": "object",
+										"properties": {
+											"name": { "type": "string" },
+											"description": { "type": "string" },
+											"rate": { "type": "string" },
+											"enabled": { "type": "boolean" },
+											"input": {
+												"type": "object",
+												"anyOf": [
+													{ "patternProperties": {} },
+													{
+														"properties": {
+															"stageParams": {
+																"type": "object",
+																"properties": {
+																	"stage": { "type": "string" }
+																}
+															}
+														}
+													}
+												]
+											},
+											"inputPath": { "type": "string" },
+											"inputTransformer": {
+												"type": "object",
+												"properties": {
+													"inputPathsMap": {
+														"type": "object",
+														"properties": { "eventTime": { "type": "string" } }
+													},
+													"inputTemplate": { "type": "string" }
+												}
+											}
+										}
+									},
+									"sns": {
+										"type": "object",
+										"properties": {
+											"topicName": { "type": "string" },
+											"displayName": { "type": "string" },
+											"filterPolicy": {
+												"type": "object",
+												"patternProperties": {
+													"^.*$": {
+														"type": "array"
+													}
+												}
+											},
+											"redrivePolicy": {
+												"type": "object",
+												"properties": {
+													"deadLetterTargetArn": { "type": "string" },
+													"deadLetterTargetRef": { "type": "string" },
+													"deadLetterTargetImport": {
+														"type": "object",
+														"properties": {
+															"arn": { "type": "string" },
+															"url": { "type": "string" }
+														}
+													}
+												}
+											}
+										}
+									},
+									"sqs": {
+										"type": "object",
+										"properties": {
+											"arn": { "type": "string" },
+											"batchSize": { "type": "number" }
+										}
+									},
+									"stream": {},
+									"alexaSkill": {},
+									"alexaSmartHome": {},
+									"iot": {},
+									"cloudwatchEvent": {},
+									"cloudwatchLog": {},
+									"cognitoUserPool": {},
+									"alb": {},
+									"eventBridge": {},
+									"cloudFront": {}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"frameworkVersion": { "type": "string" },
+		"disabledDeprecations": { "type": "array", "items": { "type": "string" } },
+		"provider": {
+			"type": "object",
+			"properties": {
+				"name": { "type": "string", "enum": ["aws", "google"] }
+			},
+			"oneOf": [
+				{
+					"if": {
+						"properties": {
+							"name": { "const": "aws" }
+						}
+					},
+					"then": {
+						"anyOf": [
+							{
+								"properties": {
+									"runtime": {
+										"$ref": "#/definitions/AWSRunTime"
+									}
+								}
+							}
+						]
+					}
+				}
+			]
+		}
+	},
+
+	"definitions": {
+		"CustomLocalstack": {
+			"properties": {
+				"localstack": {
+					"type": "object",
+					"anyOf": [
+						{
+							"patternProperties": { "^.*$": {} }
+						},
+						{
+							"properties": {
+								"stages": {
+									"type": "array",
+									"items": { "type": "string", "default": "local" }
+								},
+								"host": { "type": "string", "default": "http://localhost" },
+								"autostart": { "type": "boolean", "default": true },
+								"endpoints": {
+									"type": "object",
+									"anyOf": [
+										{ "patternProperties": { "^.*$": {} } },
+										{
+											"properties": {
+												"APIGateway": {
+													"type": "string",
+													"default": "http://localhost:4567"
+												},
+												"CloudFormation": {
+													"type": "string",
+													"default": "http://localhost:4581"
+												},
+												"CloudWatch": {
+													"type": "string",
+													"default": "http://localhost:4582"
+												},
+												"DynamoDB": {
+													"type": "string",
+													"default": "http://localhost:4569"
+												},
+												"DynamoDBStreams": {
+													"type": "string",
+													"default": "http://localhost:4570"
+												},
+												"ES": {
+													"type": "string",
+													"default": "http://localhost:4571"
+												},
+												"EC2": {
+													"type": "string",
+													"default": "http://localhost:4597"
+												},
+												"IAM": {
+													"type": "string",
+													"default": "http://localhost:4593"
+												},
+												"Firehose": {
+													"type": "string",
+													"default": "http://localhost:4573"
+												},
+												"Kinesis": {
+													"type": "string",
+													"default": "http://localhost:4568"
+												},
+												"Lambda": {
+													"type": "string",
+													"default": "http://localhost:4574"
+												},
+												"Redshift": {
+													"type": "string",
+													"default": "http://localhost:4577"
+												},
+												"Route53": {
+													"type": "string",
+													"default": "http://localhost:4580"
+												},
+												"S3": {
+													"type": "string",
+													"default": "http://localhost:4572"
+												},
+												"SES": {
+													"type": "string",
+													"default": "http://localhost:4579"
+												},
+												"SNS": {
+													"type": "string",
+													"default": "http://localhost:4575"
+												},
+												"SQS": {
+													"type": "string",
+													"default": "http://localhost:4576"
+												},
+												"StepFunctions": {
+													"type": "string",
+													"default": "http://localhost:4585"
+												}
+											}
+										}
+									]
+								},
+								"lambda": {
+									"type": "object",
+									"anyOf": [
+										{ "patternProperties": {} },
+										{
+											"properties": {
+												"mountCode": { "type": "boolean", "default": true }
+											}
+										}
+									]
+								},
+								"docker": {
+									"type": "object",
+									"anyOf": [
+										{ "patternProperties": {} },
+										{
+											"properties": {
+												"sudo": { "type": "boolean", "default": false }
+											}
+										}
+									]
+								}
+							}
+						}
+					]
+				}
+			}
+		},
+		"AWSRunTime": {
+			"type": "string",
+			"enum": [
+				"nodejs10.x",
+				"nodejs12.x",
+				"python3.8",
+				"python3.7",
+				"python3.6",
+				"ruby2.7",
+				"ruby2.5",
+				"java11",
+				"java8",
+				"go1.x",
+				"dotnetcore3.1",
+				"dotnetcore2.1"
+			]
+		}
+	}
+}
