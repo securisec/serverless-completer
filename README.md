@@ -1,6 +1,7 @@
 # Serverless completer for VSCode
 
 ## WIP
+Pull requests are very welcome. 
 
 ## Install
 - [VSCode Marketplace](https://marketplace.visualstudio.com/items?itemName=securisec.serverless-completer)

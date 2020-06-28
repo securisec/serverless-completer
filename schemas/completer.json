@@ -279,16 +279,199 @@
 											"batchSize": { "type": "number" }
 										}
 									},
-									"stream": {},
-									"alexaSkill": {},
-									"alexaSmartHome": {},
-									"iot": {},
-									"cloudwatchEvent": {},
-									"cloudwatchLog": {},
-									"cognitoUserPool": {},
-									"alb": {},
-									"eventBridge": {},
-									"cloudFront": {}
+									"stream": {
+										"type": "object",
+										"properties": {
+											"arn": { "type": "string" },
+											"batchSize": { "type": "number" },
+											"maximumRecordAgeInSeconds": { "type": "number" },
+											"startingPosition": { "type": "string" },
+											"enabled": { "type": "boolean" }
+										}
+									},
+									"alexaSkill": {
+										"type": "object",
+										"properties": {
+											"appId": { "type": "string" },
+											"enabled": { "type": "boolean" }
+										}
+									},
+									"alexaSmartHome": {
+										"type": "object",
+										"properties": {
+											"appId": { "type": "string" },
+											"enabled": { "type": "boolean" }
+										}
+									},
+									"iot": {
+										"type": "object",
+										"properties": {
+											"name": { "type": "string" },
+											"description": { "type": "string" },
+											"enabled": { "type": "boolean" },
+											"sql": { "type": "string" },
+											"sqlVersion": { "type": "string" }
+										}
+									},
+									"cloudwatchEvent": {
+										"type": "object",
+										"properties": {
+											"event": {
+												"type": "object",
+												"properties": {
+													"source": {
+														"type": "array",
+														"items": { "type": "string" }
+													},
+													"detail-type": {
+														"type": "array",
+														"items": { "type": "string" }
+													},
+													"detail": {
+														"type": "object",
+														"properties": {
+															"state": {
+																"type": "array",
+																"items": { "type": "string" }
+															}
+														}
+													}
+												}
+											},
+											"input": {
+												"type": "object",
+												"anyOf": [
+													{ "patternProperties": {} },
+													{
+														"properties": {
+															"stageParams": {
+																"type": "object",
+																"properties": {
+																	"stage": { "type": "string" }
+																}
+															}
+														}
+													}
+												]
+											},
+											"inputPath": { "type": "string" },
+											"inputTransformer": {
+												"type": "object",
+												"properties": {
+													"inputPathsMap": {
+														"type": "object",
+														"properties": { "eventTime": { "type": "string" } }
+													},
+													"inputTemplate": { "type": "string" }
+												}
+											}
+										}
+									},
+									"cloudwatchLog": {
+										"type": "object",
+										"properties": {
+											"logGroup": { "type": "string" },
+											"filter": { "type": "string" }
+										}
+									},
+									"cognitoUserPool": {
+										"type": "object",
+										"properties": {
+											"pool": { "type": "string" },
+											"trigger": { "type": "string" },
+											"existing": { "type": "boolean" }
+										}
+									},
+									"alb": {
+										"type": "object",
+										"properties": {
+											"listenerArn": { "type": "string" },
+											"priority": { "type": "number" },
+											"conditions": {
+												"type": "object",
+												"properties": {
+													"host": { "type": "string" },
+													"path": { "type": "string" }
+												}
+											}
+										}
+									},
+									"eventBridge": {
+										"type": "object",
+										"properties": {
+											"schedule": { "type": "string" },
+											"eventBus": { "type": "string" },
+											"pattern": {
+												"type": "object",
+												"properties": {
+													"source": {
+														"type": "array",
+														"items": { "type": "string" }
+													},
+													"detail-type": {
+														"type": "array",
+														"items": { "type": "string" }
+													},
+													"detail": {
+														"type": "object",
+														"properties": {
+															"state": {
+																"type": "array",
+																"items": { "type": "string" }
+															}
+														}
+													}
+												}
+											},
+											"input": {
+												"type": "object",
+												"anyOf": [
+													{ "patternProperties": {} },
+													{
+														"properties": {
+															"stageParams": {
+																"type": "object",
+																"properties": {
+																	"stage": { "type": "string" }
+																}
+															}
+														}
+													}
+												]
+											},
+											"inputTransformer": {
+												"type": "object",
+												"properties": {
+													"inputPathsMap": {
+														"type": "object",
+														"properties": { "eventTime": { "type": "string" } }
+													},
+													"inputTemplate": { "type": "string" }
+												}
+											}
+										}
+									},
+									"cloudFront": {
+										"type": "object",
+										"properties": {
+											"eventType": { "type": "string" },
+											"includeBody": { "type": "array" },
+											"pathPattern": { "type": "string" },
+											"origin": {
+												"type": "object",
+												"properties": {
+													"DomainName": { "type": "string" },
+													"OriginPath": { "type": "string" },
+													"CustomOriginConfig": {
+														"type": "object",
+														"properties": {
+															"OriginProtocolPolicy": { "type": "string" }
+														}
+													}
+												}
+											}
+										}
+									}
 								}
 							}
 						}
@@ -316,6 +499,269 @@
 								"properties": {
 									"runtime": {
 										"$ref": "#/definitions/AWSRunTime"
+									},
+									"stage": { "type": "string" },
+									"region": { "type": "string" },
+									"stackName": { "type": "string" },
+									"apiName": { "type": "string" },
+									"websocketsApiName": { "type": "string" },
+									"websocketsApiRouteSelectionExpression": { "type": "string" },
+									"profile": { "type": "string" },
+									"memorySize": { "type": "number" },
+									"reservedConcurrency": { "type": "number" },
+									"timeout": { "type": "number" },
+									"logRetentionInDays": { "type": "number" },
+									"deploymentBucket": {
+										"type": "object",
+										"properties": {
+											"name": { "type": "string" },
+											"maxPreviousDeploymentArtifacts": { "type": "number" },
+											"blockPublicAccess": { "type": "boolean" },
+											"serverSideEncryption": { "type": "string" },
+											"sseKMSKeyId": { "type": "string" },
+											"sseCustomerAlgorithim": { "type": "string" },
+											"sseCustomerKey": { "type": "string" },
+											"sseCustomerKeyMD5": { "type": "string" },
+											"tags": {
+												"type": "object",
+												"properties": {}
+											}
+										}
+									},
+									"deploymentPrefix": { "type": "string" },
+									"role": { "type": "string" },
+									"rolePermissionsBoundary": { "type": "string" },
+									"cfnRole": { "type": "string" },
+									"versionFunctions": { "type": "boolean" },
+									"environment": { "type": "object", "properties": {} },
+									"endpointType": { "type": "string" },
+									"apiKeys": {
+										"type": "array",
+										"items": {
+											"anyOf": [
+												{ "type": "string" },
+												{
+													"type": "object",
+													"patternProperties": {
+														"^.*$": {
+															"type": "object",
+															"properties": {
+																"value": { "type": "string" },
+																"description": { "type": "string" },
+																"customerId": { "type": "string" }
+															}
+														}
+													}
+												}
+											]
+										}
+									},
+									"apiGateway": {
+										"type": "object",
+										"properties": {
+											"restApiId": { "type": "string" },
+											"restApiRootResourceId": { "type": "string" },
+											"restApiResources": {
+												"type": "array",
+												"items": { "type": "string" }
+											},
+											"websocketApiId": { "type": "string" },
+											"apiKeySourceType": { "type": "string" },
+											"minimumCompressionSize": { "type": "number" },
+											"description": { "type": "string" },
+											"binaryMediaTypes": {
+												"type": "array",
+												"items": { "type": "string" }
+											},
+											"metrics": { "type": "boolean" }
+										}
+									},
+									"alb": {
+										"type": "object",
+										"properties": {
+											"targetGroupPrefix": { "type": "string" },
+											"authorizers": {
+												"type": "object",
+												"patternProperties": {
+													"^.*$": {
+														"type": "object",
+														"properties": {
+															"type": { "type": "string" },
+															"userPoolArn": { "type": "string" },
+															"userPoolClientId": { "type": "string" },
+															"userPoolDomain": { "type": "string" },
+															"onUnauthenticatedRequest": { "type": "string" },
+															"requestExtraParams": {
+																"type": "object",
+																"properties": {
+																	"prompt": { "type": "string" },
+																	"redirect": { "type": "boolean" }
+																}
+															},
+															"scope": { "type": "string" },
+															"sessionCookieName": { "type": "string" },
+															"sessionTimeout": { "type": "number" },
+															"authorizationEndpoint": { "type": "string" },
+															"clientId": { "type": "string" },
+															"clientSecret": { "type": "string" },
+															"useExistingClientSecret": { "type": "boolean" },
+															"issuer": { "type": "string" },
+															"tokenEndpoint": { "type": "string" },
+															"userInfoEndpoint": { "type": "string" }
+														}
+													}
+												}
+											}
+										}
+									},
+									"httpApi": {
+										"type": "object",
+										"properties": {
+											"id": { "type": "string" },
+											"name": { "type": "string" },
+											"payload": { "type": "string" },
+											"cors": { "type": "boolean" },
+											"authorizers": {
+												"type": "object",
+												"patternProperties": {
+													"^.*$": {
+														"type": "object",
+														"properties": {
+															"identitySource": { "type": "string" },
+															"issuerUrl": { "type": "string" },
+															"audience": {
+																"type": "array",
+																"items": { "type": "string" }
+															}
+														}
+													}
+												}
+											}
+										}
+									},
+									"usagePlan": {
+										"type": "object",
+										"properties": {
+											"quota": {
+												"type": "object",
+												"properties": {
+													"limit": { "type": "number" },
+													"offset": { "type": "number" },
+													"period": { "type": "string" }
+												}
+											},
+											"throttle": {
+												"type": "object",
+												"properties": {
+													"burstLimit": { "type": "number" },
+													"rateLimit": { "type": "number" }
+												}
+											},
+											"stackTags": { "type": "object", "properties": {} },
+											"iamManagedPolicies": {
+												"type": "array",
+												"items": { "type": "string" }
+											},
+											"iamRoleStatements": { "type": "array", "items": {} },
+											"stackPolicy": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"Effect": { "type": "string" },
+														"Principal": { "type": "string" },
+														"Resource": { "type": "string" },
+														"Action": {
+															"oneOf": [
+																{ "type": "string" },
+																{ "type": "array", "items": {} }
+															]
+														},
+														"Condition": {
+															"type": "object",
+															"properties": {}
+														}
+													}
+												}
+											}
+										}
+									},
+									"vpc": {
+										"type": "object",
+										"properties": {
+											"securityGroupIds": {
+												"type": "array",
+												"items": { "type": "string" }
+											},
+											"subnetIds": {
+												"type": "array",
+												"items": { "type": "string" }
+											}
+										}
+									},
+									"notificationArns": {
+										"type": "array",
+										"items": { "type": "string" }
+									},
+									"stackParameters": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"ParameterKey": { "type": "string" },
+												"ParameterValue": { "type": "string" }
+											}
+										}
+									},
+									"resourcePolicy": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"Effect": { "type": "string" },
+												"Principal": { "type": "string" },
+												"Action": { "type": "string" },
+												"Resource": {
+													"type": "array",
+													"items": { "type": "string" }
+												},
+												"Condition": { "type": "object", "properties": {} }
+											}
+										}
+									},
+									"tags": { "type": "object", "properties": {} },
+									"tracing": {
+										"type": "object",
+										"properties": {
+											"apiGateway": { "type": "boolean" },
+											"lambda": { "type": "boolean" }
+										}
+									},
+									"logs": {
+										"type": "object",
+										"properties": {
+											"restApi": {
+												"type": "object",
+												"properties": {
+													"accessLogging": { "type": "boolean" },
+													"executionLogging": { "type": "boolean" },
+													"fullExecutionData": { "type": "boolean" },
+													"roleManagedExternally": { "type": "boolean" },
+													"format": { "type": "string" },
+													"level": { "type": "string" },
+													"role": { "type": "string" }
+												}
+											},
+											"websocket": {
+												"type": "object",
+												"properties": { "level": { "type": "string" } }
+											},
+											"httpApi": {
+												"type": "object",
+												"properties": { "format": { "type": "string" } }
+											},
+											"frameworkLambda": { "type": "boolean" }
+										}
 									}
 								}
 							}
@@ -323,7 +769,30 @@
 					}
 				}
 			]
-		}
+		},
+		"layers": {
+			"type": "object",
+			"patternProperties": {
+				"^.*$": {
+					"type": "object",
+					"properties": {
+						"path": { "type": "string" },
+						"name": { "type": "string" },
+						"description": { "type": "string" },
+						"licenseInfo": { "type": "string" },
+						"compatibleRuntimes": {
+							"type": "array",
+							"items": { "type": "string" }
+						},
+						"allowedAccounts": {
+							"type": "array",
+							"items": { "type": "string" }
+						}
+					}
+				}
+			}
+		},
+		"resources": { "type": "object", "properties": {} }
 	},
 
 	"definitions": {
