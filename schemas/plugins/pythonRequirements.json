@@ -1,0 +1,75 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"type": "object",
+	"description": "Python requirements plugin",
+	"properties": {
+		"pythonRequirements": {
+			"type": "object",
+			"properties": {
+				"dockerImage": { "type": "string" },
+				"dockerFile": { "type": "string" },
+				"dockerizePip": { "type": "boolean" },
+				"dockerSsh": { "type": "boolean" },
+				"usePipenv": { "type": "boolean" },
+				"usePoetry": { "type": "boolean" },
+				"zip": { "type": "boolean" },
+				"slim": { "type": "boolean" },
+				"useDownloadCache": { "type": "boolean" },
+				"useStaticCache": { "type": "boolean" },
+				"cacheLocation": { "type": "string" },
+				"fileName": { "type": "string" },
+				"pythonBin": { "type": "string" },
+				"vendor": { "type": "string" },
+				"staticCacheMaxVersions": { "type": "number" },
+				"slimPatternsAppendDefaults": { "type": "boolean" },
+				"invalidateCaches": { "type": "boolean" },
+				"layer": { "type": "boolean", "default": true },
+				"pipCmdExtraArgs": {
+					"type": "array",
+					"items": { "type": "string" }
+				},
+				"dockerBuildCmdExtraArgs": {
+					"type": "array",
+					"items": { "type": "string" }
+				},
+				"dockerRunCmdExtraArgs": {
+					"type": "array",
+					"items": { "type": "string" }
+				},
+				"slimPatterns": {
+					"type": "array",
+					"items": { "type": "string" }
+				},
+				"dockerEnv": { "type": "array", "items": { "type": "string" } },
+				"layers": {
+					"oneOf": [
+						{
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": { "Ref": { "type": "string" } }
+							}
+						},
+						{
+							"type": "object",
+							"properties": {
+								"name": { "type": "string" },
+								"licenseInfo": { "type": "string" },
+								"description": { "type": "string" },
+								"compatibleRuntimes": {
+									"type": "array",
+									"items": { "type": "string" }
+								},
+								"allowedAccounts": {
+									"type": "array",
+									"items": { "type": "string" }
+								}
+							}
+						}
+					]
+				},
+				"noDeploy": { "type": "array", "items": { "type": "string" } }
+			}
+		}
+	}
+}

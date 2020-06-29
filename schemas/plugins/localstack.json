@@ -1,0 +1,129 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"type": "object",
+	"description": "Localstack plugin",
+	"properties": {
+		"localstack": {
+			"type": "object",
+			"anyOf": [
+				{
+					"patternProperties": { "^.*$": {} }
+				},
+				{
+					"properties": {
+						"stages": {
+							"type": "array",
+							"items": { "type": "string", "default": "local" }
+						},
+						"host": { "type": "string", "default": "http://localhost" },
+						"autostart": { "type": "boolean", "default": true },
+						"endpoints": {
+							"type": "object",
+							"anyOf": [
+								{ "patternProperties": { "^.*$": {} } },
+								{
+									"properties": {
+										"APIGateway": {
+											"type": "string",
+											"default": "http://localhost:4567"
+										},
+										"CloudFormation": {
+											"type": "string",
+											"default": "http://localhost:4581"
+										},
+										"CloudWatch": {
+											"type": "string",
+											"default": "http://localhost:4582"
+										},
+										"DynamoDB": {
+											"type": "string",
+											"default": "http://localhost:4569"
+										},
+										"DynamoDBStreams": {
+											"type": "string",
+											"default": "http://localhost:4570"
+										},
+										"ES": {
+											"type": "string",
+											"default": "http://localhost:4571"
+										},
+										"EC2": {
+											"type": "string",
+											"default": "http://localhost:4597"
+										},
+										"IAM": {
+											"type": "string",
+											"default": "http://localhost:4593"
+										},
+										"Firehose": {
+											"type": "string",
+											"default": "http://localhost:4573"
+										},
+										"Kinesis": {
+											"type": "string",
+											"default": "http://localhost:4568"
+										},
+										"Lambda": {
+											"type": "string",
+											"default": "http://localhost:4574"
+										},
+										"Redshift": {
+											"type": "string",
+											"default": "http://localhost:4577"
+										},
+										"Route53": {
+											"type": "string",
+											"default": "http://localhost:4580"
+										},
+										"S3": {
+											"type": "string",
+											"default": "http://localhost:4572"
+										},
+										"SES": {
+											"type": "string",
+											"default": "http://localhost:4579"
+										},
+										"SNS": {
+											"type": "string",
+											"default": "http://localhost:4575"
+										},
+										"SQS": {
+											"type": "string",
+											"default": "http://localhost:4576"
+										},
+										"StepFunctions": {
+											"type": "string",
+											"default": "http://localhost:4585"
+										}
+									}
+								}
+							]
+						},
+						"lambda": {
+							"type": "object",
+							"anyOf": [
+								{ "patternProperties": {} },
+								{
+									"properties": {
+										"mountCode": { "type": "boolean", "default": true }
+									}
+								}
+							]
+						},
+						"docker": {
+							"type": "object",
+							"anyOf": [
+								{ "patternProperties": {} },
+								{
+									"properties": {
+										"sudo": { "type": "boolean", "default": false }
+									}
+								}
+							]
+						}
+					}
+				}
+			]
+		}
+	}
+}

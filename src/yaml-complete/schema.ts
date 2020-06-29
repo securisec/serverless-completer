@@ -1,4 +1,6 @@
 import * as vscode from 'vscode';
+import $RefParser from '@apidevtools/json-schema-ref-parser'
+import { join } from 'path';
 
 export const SERVERLESS_YAML_SCHEMA = 'slsschema';
 
@@ -31,10 +33,15 @@ export function onRequestSchemaURI(resource: string): string | undefined {
 
 let responseCache = '';
 export async function getSchemaContent() {
-	// if (responseCache !== '') {
-	// 	return responseCache;
-	// }
-	const response = JSON.stringify(require('../../schemas/completer.json'));
-	return response;
-	// return responseCache;
+	if (responseCache !== '') {
+		return responseCache;
+	}
+	try {
+		let jsonPath = join(__dirname, '../../schemas/completer.json')
+		let deref = await $RefParser.dereference(jsonPath)
+		responseCache = JSON.stringify(deref)
+		return responseCache;
+	} catch (error) {
+		console.log(error)
+	}
 }

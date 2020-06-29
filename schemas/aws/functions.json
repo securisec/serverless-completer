@@ -1,0 +1,466 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"description": "aws functions",
+	"type": "object",
+	"patternProperties": {
+		"^.*$": {
+			"type": "object",
+			"required": ["handler"],
+			"properties": {
+				"runtime": { "$ref": "./runtime.json" },
+				"timeout": {"type":"number", "default": 6},
+				"handler": { "type": "string" },
+				"name": { "type": "string" },
+				"description": { "type": "string" },
+				"memorySize": { "type": "number", "default":1024},
+				"reservedConcurrency": { "type": "number" },
+				"provisionedConcurrency": { "type": "number" },
+				"role": { "type": "string" },
+				"awsKmsKeyArn": { "type": "string" },
+				"disableLogs": { "type": "boolean" },
+				"environment": { "type": "object", "patternProperties": {} },
+				"tags": { "type": "object", "patternProperties": {} },
+				"vpc": {
+					"type": "object",
+					"properties": {
+						"securityGroupIds": {
+							"type": "array",
+							"items": { "type": "string" }
+						},
+						"subnetIds": {
+							"type": "array",
+							"items": { "type": "string" }
+						}
+					}
+				},
+				"package": {
+					"type": "object",
+					"properties": {
+						"include": {
+							"type": "array",
+							"items": { "type": "string" }
+						},
+						"exclude": {
+							"type": "array",
+							"items": { "type": "string" }
+						},
+						"individually": { "type": "boolean" },
+						"artifact": { "type": "string" }
+					}
+				},
+				"layers": { "type": "array", "items": { "type": "string" } },
+				"tracing": {
+					"type": "string",
+					"enum": ["Active", "PassThrough"]
+				},
+				"condition": { "type": "string" },
+				"dependsOn": { "type": "array", "items": { "type": "string" } },
+				"destinations": {
+					"type": "object",
+					"properties": {
+						"onSuccess": { "type": "string" },
+						"onFailure": { "type": "string" }
+					}
+				},
+				"events": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"http": {
+								"type": "object",
+								"required": ["path", "method"],
+								"properties": {
+									"path": { "type": "string" },
+									"method": {
+										"anyOf": [
+											{ "type": "string" },
+											{
+												"type": "string",
+												"enum": [
+													"HEAD",
+													"GET",
+													"PUT",
+													"POST",
+													"DELETE",
+													"OPTIONS",
+													"PATCH"
+												]
+											}
+										]
+									},
+									"cors": { "type": "boolean" },
+									"private": { "type": "boolean" },
+									"authorizer": {
+										"type": "object",
+										"properties": {
+											"name": { "type": "string" },
+											"arn": { "type": "string" },
+											"identitySource": { "type": "string" },
+											"identityValidationExpression": {
+												"type": "string"
+											},
+											"type": {
+												"type": "string",
+												"enum": ["token", "request"]
+											},
+											"resultTtlInSeconds": {
+												"type": "number"
+											}
+										}
+									}
+								}
+							},
+							"httpApi": {
+								"type": "object",
+								"properties": {
+									"method": {
+										"anyOf": [
+											{ "type": "string" },
+											{
+												"type": "string",
+												"enum": [
+													"HEAD",
+													"GET",
+													"PUT",
+													"POST",
+													"DELETE",
+													"OPTIONS",
+													"PATCH"
+												]
+											}
+										]
+									},
+									"path": { "type": "string" },
+									"authorizer": {
+										"type": "object",
+										"properties": {
+											"name": { "type": "string" },
+											"scopes": {
+												"type": "array",
+												"items": { "type": "string" }
+											}
+										}
+									}
+								}
+							},
+							"websocket": {
+								"type": "object",
+								"properties": {
+									"route": { "type": "string" },
+									"routeResponseSelectionExpression": { "type": "string" },
+									"authorizer": {
+										"type": "object",
+										"properties": {
+											"arn": { "type": "string" },
+											"identitySource": {
+												"type": "array",
+												"items": { "type": "string" }
+											}
+										}
+									}
+								}
+							},
+							"s3": {
+								"type": "object",
+								"properties": {
+									"bucket": { "type": "string" },
+									"event": { "type": "string" },
+									"rules": {
+										"type": "array",
+										"items": {
+											"type": "object",
+											"properties": {
+												"prefix": { "type": "string" },
+												"suffix": { "type": "string" }
+											}
+										}
+									},
+									"existing": { "type": "boolean" }
+								}
+							},
+							"schedule": {
+								"type": "object",
+								"properties": {
+									"name": { "type": "string" },
+									"description": { "type": "string" },
+									"rate": { "type": "string" },
+									"enabled": { "type": "boolean" },
+									"input": {
+										"type": "object",
+										"anyOf": [
+											{ "patternProperties": {} },
+											{
+												"properties": {
+													"stageParams": {
+														"type": "object",
+														"properties": {
+															"stage": { "type": "string" }
+														}
+													}
+												}
+											}
+										]
+									},
+									"inputPath": { "type": "string" },
+									"inputTransformer": {
+										"type": "object",
+										"properties": {
+											"inputPathsMap": {
+												"type": "object",
+												"properties": { "eventTime": { "type": "string" } }
+											},
+											"inputTemplate": { "type": "string" }
+										}
+									}
+								}
+							},
+							"sns": {
+								"type": "object",
+								"properties": {
+									"topicName": { "type": "string" },
+									"displayName": { "type": "string" },
+									"filterPolicy": {
+										"type": "object",
+										"patternProperties": {
+											"^.*$": {
+												"type": "array"
+											}
+										}
+									},
+									"redrivePolicy": {
+										"type": "object",
+										"properties": {
+											"deadLetterTargetArn": { "type": "string" },
+											"deadLetterTargetRef": { "type": "string" },
+											"deadLetterTargetImport": {
+												"type": "object",
+												"properties": {
+													"arn": { "type": "string" },
+													"url": { "type": "string" }
+												}
+											}
+										}
+									}
+								}
+							},
+							"sqs": {
+								"type": "object",
+								"properties": {
+									"arn": {
+										"anyOf": [
+											{ "type": "string" },
+											{
+												"type": "object",
+												"properties": {
+													"Fn::GetAtt": {
+														"type": "array",
+														"items": { "type": "string" }
+													}
+												}
+											}
+										]
+									},
+									"batchSize": { "type": "number" }
+								}
+							},
+							"stream": {
+								"type": "object",
+								"properties": {
+									"arn": { "type": "string" },
+									"batchSize": { "type": "number" },
+									"maximumRecordAgeInSeconds": { "type": "number" },
+									"startingPosition": { "type": "string" },
+									"enabled": { "type": "boolean" }
+								}
+							},
+							"alexaSkill": {
+								"type": "object",
+								"properties": {
+									"appId": { "type": "string" },
+									"enabled": { "type": "boolean" }
+								}
+							},
+							"alexaSmartHome": {
+								"type": "object",
+								"properties": {
+									"appId": { "type": "string" },
+									"enabled": { "type": "boolean" }
+								}
+							},
+							"iot": {
+								"type": "object",
+								"properties": {
+									"name": { "type": "string" },
+									"description": { "type": "string" },
+									"enabled": { "type": "boolean" },
+									"sql": { "type": "string" },
+									"sqlVersion": { "type": "string" }
+								}
+							},
+							"cloudwatchEvent": {
+								"type": "object",
+								"properties": {
+									"event": {
+										"type": "object",
+										"properties": {
+											"source": {
+												"type": "array",
+												"items": { "type": "string" }
+											},
+											"detail-type": {
+												"type": "array",
+												"items": { "type": "string" }
+											},
+											"detail": {
+												"type": "object",
+												"properties": {
+													"state": {
+														"type": "array",
+														"items": { "type": "string" }
+													}
+												}
+											}
+										}
+									},
+									"input": {
+										"type": "object",
+										"anyOf": [
+											{ "patternProperties": {} },
+											{
+												"properties": {
+													"stageParams": {
+														"type": "object",
+														"properties": {
+															"stage": { "type": "string" }
+														}
+													}
+												}
+											}
+										]
+									},
+									"inputPath": { "type": "string" },
+									"inputTransformer": {
+										"type": "object",
+										"properties": {
+											"inputPathsMap": {
+												"type": "object",
+												"properties": { "eventTime": { "type": "string" } }
+											},
+											"inputTemplate": { "type": "string" }
+										}
+									}
+								}
+							},
+							"cloudwatchLog": {
+								"type": "object",
+								"properties": {
+									"logGroup": { "type": "string" },
+									"filter": { "type": "string" }
+								}
+							},
+							"cognitoUserPool": {
+								"type": "object",
+								"properties": {
+									"pool": { "type": "string" },
+									"trigger": { "type": "string" },
+									"existing": { "type": "boolean" }
+								}
+							},
+							"alb": {
+								"type": "object",
+								"properties": {
+									"listenerArn": { "type": "string" },
+									"priority": { "type": "number" },
+									"conditions": {
+										"type": "object",
+										"properties": {
+											"host": { "type": "string" },
+											"path": { "type": "string" }
+										}
+									}
+								}
+							},
+							"eventBridge": {
+								"type": "object",
+								"properties": {
+									"schedule": { "type": "string" },
+									"eventBus": { "type": "string" },
+									"pattern": {
+										"type": "object",
+										"properties": {
+											"source": {
+												"type": "array",
+												"items": { "type": "string" }
+											},
+											"detail-type": {
+												"type": "array",
+												"items": { "type": "string" }
+											},
+											"detail": {
+												"type": "object",
+												"properties": {
+													"state": {
+														"type": "array",
+														"items": { "type": "string" }
+													}
+												}
+											}
+										}
+									},
+									"input": {
+										"type": "object",
+										"anyOf": [
+											{ "patternProperties": {} },
+											{
+												"properties": {
+													"stageParams": {
+														"type": "object",
+														"properties": {
+															"stage": { "type": "string" }
+														}
+													}
+												}
+											}
+										]
+									},
+									"inputTransformer": {
+										"type": "object",
+										"properties": {
+											"inputPathsMap": {
+												"type": "object",
+												"properties": { "eventTime": { "type": "string" } }
+											},
+											"inputTemplate": { "type": "string" }
+										}
+									}
+								}
+							},
+							"cloudFront": {
+								"type": "object",
+								"properties": {
+									"eventType": { "type": "string" },
+									"includeBody": { "type": "array" },
+									"pathPattern": { "type": "string" },
+									"origin": {
+										"type": "object",
+										"properties": {
+											"DomainName": { "type": "string" },
+											"OriginPath": { "type": "string" },
+											"CustomOriginConfig": {
+												"type": "object",
+												"properties": {
+													"OriginProtocolPolicy": { "type": "string" }
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

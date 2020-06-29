@@ -1,0 +1,314 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"description": "aws providers",
+	"type": "object",
+	"properties": {
+		"name": { "type": "string", "enum": ["aws", "google"] },
+		"runtime": {
+			"$ref": "./runtime.json"
+		},
+		"stage": { "type": "string" },
+		"region": { "type": "string" },
+		"stackName": { "type": "string" },
+		"apiName": { "type": "string" },
+		"websocketsApiName": { "type": "string" },
+		"websocketsApiRouteSelectionExpression": { "type": "string" },
+		"profile": { "type": "string" },
+		"memorySize": { "type": "number" },
+		"reservedConcurrency": { "type": "number" },
+		"timeout": { "type": "number" },
+		"logRetentionInDays": { "type": "number" },
+		"deploymentBucket": {
+			"type": "object",
+			"properties": {
+				"name": { "type": "string" },
+				"maxPreviousDeploymentArtifacts": { "type": "number" },
+				"blockPublicAccess": { "type": "boolean" },
+				"serverSideEncryption": { "type": "string" },
+				"sseKMSKeyId": { "type": "string" },
+				"sseCustomerAlgorithim": { "type": "string" },
+				"sseCustomerKey": { "type": "string" },
+				"sseCustomerKeyMD5": { "type": "string" },
+				"tags": {
+					"type": "object",
+					"properties": {}
+				}
+			}
+		},
+		"iamManagedPolicies": {
+			"type": "array",
+			"items": { "type": "string" }
+		},
+		"iamRoleStatements": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"Effect": {
+						"anyOf": [
+							{ "type": "string" },
+							{ "type": "string", "enum": ["Allow", "Deny"] }
+						]
+					},
+					"Action": {
+						"$ref": "./iam/actions.json"
+					},
+					"Resource": {
+						"type": "object",
+						"properties": {
+							"Fn::Join": {
+								"type": "array",
+								"items": {
+									"oneOf": [
+										{ "type": "string" },
+										{
+											"type": "object",
+											"properties": {
+												"Ref": { "type": "string" }
+											}
+										}
+									]
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"deploymentPrefix": { "type": "string" },
+		"role": { "type": "string" },
+		"rolePermissionsBoundary": { "type": "string" },
+		"cfnRole": { "type": "string" },
+		"versionFunctions": { "type": "boolean" },
+		"environment": { "type": "object", "properties": {} },
+		"endpointType": { "type": "string" },
+		"apiKeys": {
+			"type": "array",
+			"items": {
+				"anyOf": [
+					{ "type": "string" },
+					{
+						"type": "object",
+						"patternProperties": {
+							"^.*$": {
+								"type": "object",
+								"properties": {
+									"value": { "type": "string" },
+									"description": { "type": "string" },
+									"customerId": { "type": "string" }
+								}
+							}
+						}
+					}
+				]
+			}
+		},
+		"apiGateway": {
+			"type": "object",
+			"properties": {
+				"restApiId": { "type": "string" },
+				"restApiRootResourceId": { "type": "string" },
+				"restApiResources": {
+					"type": "array",
+					"items": { "type": "string" }
+				},
+				"websocketApiId": { "type": "string" },
+				"apiKeySourceType": { "type": "string" },
+				"minimumCompressionSize": { "type": "number" },
+				"description": { "type": "string" },
+				"binaryMediaTypes": {
+					"type": "array",
+					"items": { "type": "string" }
+				},
+				"metrics": { "type": "boolean" }
+			}
+		},
+		"alb": {
+			"type": "object",
+			"properties": {
+				"targetGroupPrefix": { "type": "string" },
+				"authorizers": {
+					"type": "object",
+					"patternProperties": {
+						"^.*$": {
+							"type": "object",
+							"properties": {
+								"type": { "type": "string" },
+								"userPoolArn": { "type": "string" },
+								"userPoolClientId": { "type": "string" },
+								"userPoolDomain": { "type": "string" },
+								"onUnauthenticatedRequest": { "type": "string" },
+								"requestExtraParams": {
+									"type": "object",
+									"properties": {
+										"prompt": { "type": "string" },
+										"redirect": { "type": "boolean" }
+									}
+								},
+								"scope": { "type": "string" },
+								"sessionCookieName": { "type": "string" },
+								"sessionTimeout": { "type": "number" },
+								"authorizationEndpoint": { "type": "string" },
+								"clientId": { "type": "string" },
+								"clientSecret": { "type": "string" },
+								"useExistingClientSecret": { "type": "boolean" },
+								"issuer": { "type": "string" },
+								"tokenEndpoint": { "type": "string" },
+								"userInfoEndpoint": { "type": "string" }
+							}
+						}
+					}
+				}
+			}
+		},
+		"httpApi": {
+			"type": "object",
+			"properties": {
+				"id": { "type": "string" },
+				"name": { "type": "string" },
+				"payload": { "type": "string" },
+				"cors": { "type": "boolean" },
+				"authorizers": {
+					"type": "object",
+					"patternProperties": {
+						"^.*$": {
+							"type": "object",
+							"properties": {
+								"identitySource": { "type": "string" },
+								"issuerUrl": { "type": "string" },
+								"audience": {
+									"type": "array",
+									"items": { "type": "string" }
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"usagePlan": {
+			"type": "object",
+			"properties": {
+				"quota": {
+					"type": "object",
+					"properties": {
+						"limit": { "type": "number" },
+						"offset": { "type": "number" },
+						"period": { "type": "string" }
+					}
+				},
+				"throttle": {
+					"type": "object",
+					"properties": {
+						"burstLimit": { "type": "number" },
+						"rateLimit": { "type": "number" }
+					}
+				},
+				"stackTags": { "type": "object", "properties": {} },
+				"iamManagedPolicies": {
+					"type": "array",
+					"items": { "type": "string" }
+				},
+				"iamRoleStatements": { "type": "array", "items": {} },
+				"stackPolicy": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"Effect": { "type": "string" },
+							"Principal": { "type": "string" },
+							"Resource": { "type": "string" },
+							"Action": {
+								"oneOf": [
+									{ "type": "string" },
+									{ "type": "array", "items": {} }
+								]
+							},
+							"Condition": {
+								"type": "object",
+								"properties": {}
+							}
+						}
+					}
+				}
+			}
+		},
+		"vpc": {
+			"type": "object",
+			"properties": {
+				"securityGroupIds": {
+					"type": "array",
+					"items": { "type": "string" }
+				},
+				"subnetIds": {
+					"type": "array",
+					"items": { "type": "string" }
+				}
+			}
+		},
+		"notificationArns": {
+			"type": "array",
+			"items": { "type": "string" }
+		},
+		"stackParameters": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"ParameterKey": { "type": "string" },
+					"ParameterValue": { "type": "string" }
+				}
+			}
+		},
+		"resourcePolicy": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"Effect": { "type": "string" },
+					"Principal": { "type": "string" },
+					"Action": { "type": "string" },
+					"Resource": {
+						"type": "array",
+						"items": { "type": "string" }
+					},
+					"Condition": { "type": "object", "properties": {} }
+				}
+			}
+		},
+		"tags": { "type": "object", "properties": {} },
+		"tracing": {
+			"type": "object",
+			"properties": {
+				"apiGateway": { "type": "boolean" },
+				"lambda": { "type": "boolean" }
+			}
+		},
+		"logs": {
+			"type": "object",
+			"properties": {
+				"restApi": {
+					"type": "object",
+					"properties": {
+						"accessLogging": { "type": "boolean" },
+						"executionLogging": { "type": "boolean" },
+						"fullExecutionData": { "type": "boolean" },
+						"roleManagedExternally": { "type": "boolean" },
+						"format": { "type": "string" },
+						"level": { "type": "string" },
+						"role": { "type": "string" }
+					}
+				},
+				"websocket": {
+					"type": "object",
+					"properties": { "level": { "type": "string" } }
+				},
+				"httpApi": {
+					"type": "object",
+					"properties": { "format": { "type": "string" } }
+				},
+				"frameworkLambda": { "type": "boolean" }
+			}
+		}
+	}
+}
