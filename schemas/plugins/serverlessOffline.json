@@ -1,0 +1,105 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"type": "object",
+	"description": "serverless offline plugin",
+	"properties": {
+		"serverless-offline": {
+			"type": "object",
+			"anyOf": [
+				{
+					"patternProperties": { "^.*$": {} }
+				},
+				{
+					"properties": {
+						"apiKey": {
+							"type": "string",
+							"description": "Defines the API key value to be used for endpoints marked as private Defaults to a random hash."
+						},
+						"corsAllowHeaders": {
+							"type": "string",
+							"default": "accept,content-type,x-api-key",
+							"description": "Used as default Access-Control-Allow-Headers header value for responses. Delimit multiple values with commas. Default: 'accept,content-type,x-api-key'"
+						},
+						"corsAllowOrigin": {
+							"type": "string",
+							"default": "*",
+							"description": "Used as default Access-Control-Allow-Origin header value for responses. Delimit multiple values with commas. Default: '*'"
+						},
+						"corsDisallowCredentials": {
+							"type": "boolean",
+							"default": true,
+							"description": "When provided, the default Access-Control-Allow-Credentials header value will be passed as 'false'. Default: true"
+						},
+						"corsExposedHeaders": {
+							"type": "string",
+							"default": "WWW-Authenticate,Server-Authorization",
+							"description": "Used as additional Access-Control-Exposed-Headers header value for responses. Delimit multiple values with commas. Default: 'WWW-Authenticate,Server-Authorization'"
+						},
+						"disableCookieValidation": {},
+						"enforceSecureCookies": {},
+						"hideStackTraces": {
+							"type": "boolean",
+							"default": true,
+							"description": "Hide the stack trace on lambda failure"
+						},
+						"host": {
+							"type": "string",
+							"default": "localhost",
+							"description": "Hostname to listen on"
+						},
+						"httpPort": {
+							"type": "number",
+							"default": 3000,
+							"description": "Http port to listen on"
+						},
+						"httpsProtocol": {
+							"description": "To enable HTTPS, specify directory (relative to your cwd, typically your project dir) for both cert.pem and key.pem files"
+						},
+						"ignoreJWTSignature": {
+							"description": "When using HttpApi with a JWT authorizer, don't check the signature of the JWT token. This should only be used for local development."
+						},
+						"lambdaPort": {
+							"type": "number",
+							"default": 3002,
+							"description": "Lambda http port to listen on"
+						},
+						"noPrependStageInUrl": {
+							"description": "Don't prepend http routes with the stage."
+						},
+						"noAuth": { "description": "Turns off all authorizers" },
+						"noTimeout": { "description": "Disables the timeout feature" },
+						"prefix": {
+							"type": "string",
+							"default": "",
+							"description": "Adds a prefix to every path, to send your requests to http://localhost:3000/[prefix]/[your_path] instead. Default: ''"
+						},
+						"printOutput": {
+							"description": "Turns on logging of your lambda outputs in the terminal"
+						},
+						"resourceRoutes": {
+							"description": "Turns on loading of your HTTP proxy settings from serverless.yml"
+						},
+						"useChildProcesses": {
+							"description": "Run handlers in a child process"
+						},
+						"useWorkerThreads": {
+							"description": "Uses worker threads for handlers. Requires node.js v11.7.0 or higher"
+						},
+						"websocketPort": {
+							"type": "number",
+							"default": 3001,
+							"description": "WebSocket port to listen on. Default: 3001"
+						},
+						"useDocker": {
+							"description": "Run handlers in a docker container."
+						},
+						"stageVariables": {
+							"type": "object",
+							"properties": {}
+						}
+					}
+				}
+			]
+		}
+	}
+}

@@ -26,9 +26,19 @@
 		"onLanguage:yaml"
 	],
 	"contributes": {
+		"snippets": [
+			{
+				"language": "yaml",
+				"path": "./snippets/snippets.json"
+			}
+		],
 		"languages": [
 			{
-				"id": "yaml"
+				"id": "yaml",
+				"filenamePatterns": [
+					"serverless.yaml",
+					"serverless.yml"
+				]
 			}
 		]
 	},

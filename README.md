@@ -1,4 +1,5 @@
 # Serverless completer for VSCode
+A VsCode plugin that provides intellisense and linting for `serverless.yml` files. This is based on the examples provided in the serverless framework website, but does not cover every single option like `resouces` which relies of CloudFormation templates. 
 
 ## WIP
 Pull requests are very welcome. 
@@ -13,3 +14,6 @@ VSCode extension that provides linting and intellisense for serverless.yaml file
 Pull requests are welcome! 
 
 ## Demo
+
+### Resourecs
+- [AWS](https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml/)

@@ -32,7 +32,8 @@
 							"serverless-localstack",
 							"serverless-python-requirements",
 							"serverless-plugin-typescript",
-							"serverless-webpack"
+							"serverless-webpack",
+							"serverless-offline"
 						]
 					}
 				]
@@ -53,6 +54,9 @@
 				},
 				{
 					"$ref": "./plugins/pythonRequirements.json"
+				},
+				{
+					"$ref": "./plugins/serverlessOffline.json"
 				}
 			]
 		},
@@ -83,6 +87,6 @@
 				}
 			}
 		},
-		"resources": { "type": "object", "properties": {} }
+		"resources": { "$ref": "./aws/resources.json" }
 	}
 }

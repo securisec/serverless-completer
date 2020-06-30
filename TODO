@@ -1,3 +1,12 @@
 
 AWS:
   ☐ https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml/
+
+GCP:
+
+Azure:
+  ☐ https://www.serverless.com/framework/docs/providers/azure/guide/serverless.yml/
+  
+Snippets:
+  AWS:
+    

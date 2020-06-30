@@ -1,0 +1,67 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"description": "The \"Resources\" your \"Functions\" use.  Raw AWS CloudFormation goes in here",
+	"$id": "awsresources",
+	"type": "object",
+	"anyOf": [
+		{ "properties": {} },
+		{
+			"properties": {
+				"Resources": {
+					"type": "object",
+					"properties": {
+						"usersTable": {
+							"type": "object",
+							"properties": {
+								"Type": { "type": "string" },
+								"Properties": {
+									"type": "object",
+									"properties": {
+										"TableName": { "type": "string" },
+										"AttributeDefinitions": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"AttributeName": { "type": "string" },
+													"AttributeType": { "type": "string" }
+												}
+											}
+										},
+										"KeySchema": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"AttributeName": { "type": "string" },
+													"AttributeType": { "type": "string" }
+												}
+											}
+										},
+										"ProvisionedThroughput": {
+											"type": "object",
+											"properties": {
+												"ReadCapacityUnits": { "type": "number" },
+												"WriteCapacityUnits": { "type": "number" }
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"extensions": {
+					"description": "See https://serverless.com/framework/docs/providers/aws/guide/resources#override-aws-cloudformation-resource for more details",
+					"type": "object",
+					"properties": {}
+				},
+				"Outputs": {
+					"description": " The \"Outputs\" that your AWS CloudFormation Stack should produce.  This allows references between services.",
+					"type": "object",
+					"properties": {}
+				}
+			}
+		}
+	]
+}

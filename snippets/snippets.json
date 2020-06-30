@@ -1,0 +1,41 @@
+{
+	"Localstack plugin setup": {
+		"prefix": "snipLocalstackConfig",
+		"description": "Localstack custom configuration",
+		"body": [
+			"localstack:",
+			"  stages:",
+			"    - local",
+			"  docker:",
+			"    sudo: false",
+			"  host: http://localhost",
+			"  endpoints:",
+			"    APIGateway: http://localhost:4567",
+			"    S3: http://localhost:4572",
+			"    DynamoDB: http://localhost:4569",
+			"    Elasticsearch: http://localhost:4571",
+			"    ES: http://localhost:4578",
+			"    SNS: http://localhost:4575",
+			"    SQS: http://localhost:4576",
+			"    Lambda: http://localhost:4574",
+			"    Kinesis: http://localhost:4568",
+			"    CloudFormation: http://localhost:4581",
+			"  lambda:",
+			"    mountCode: true",
+			"$0"
+		]
+	},
+	"API Gateway function": {
+		"prefix": "snipFuncApiGateway",
+		"description": "AWS Fuction with APIGateway event",
+		"body": [
+			"${1:hello}:",
+			"  handler: ${2:handler}.${1:hello}",
+			"  events:",
+			"    - http:",
+			"        path: ${3:somepath}",
+			"        method: ${4:GET}",
+			"$0"
+		]
+	}
+}
