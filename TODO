@@ -10,3 +10,6 @@ Azure:
 Snippets:
   AWS:
     
+Notes:
+- cf resources rg --no-filename --no-line-number "\+ \[(AWS::\w+::\w+)\]" -o $1 -r "\$1" | rg "[^\s]" | sort -u | uniq
+- iam actions rg --no-filename --no-line-number "\[(\w+:.\w+)\]" -o $1 -r "\$1" | rg "[^\s] | sort -u | uniq

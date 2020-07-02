@@ -1,0 +1,51 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "cfsqs",
+	"description": "sqs cf",
+	"properties": {
+		"Type": {
+			"type": "string",
+			"enum": ["AWS::SQS::Queue", "AWS::SQS::QueuePolicy"]
+		}
+	},
+	"allOf": [
+		{
+			"if": { "properties": { "Type": { "const": "AWS::SQS::Queue" } } },
+			"then": {
+				"properties": {
+					"Properties": {
+						"type": "object",
+						"properties": {
+							"ContentBasedDeduplication": { "type": "boolean" },
+							"DelaySeconds": { "type": "number" },
+							"FifoQueue": { "type": "boolean" },
+							"KmsDataKeyReusePeriodSeconds": { "type": "integer" },
+							"KmsMasterKeyId": { "type": "string" },
+							"MaximumMessageSize": { "type": "integer" },
+							"MessageRetentionPeriod": { "type": "integer" },
+							"QueueName": { "type": "string" },
+							"ReceiveMessageWaitTimeSeconds": { "type": "integer" },
+							"RedrivePolicy": {},
+							"Tags": { "type": "array" },
+							"VisibilityTimeout": { "type": "integer" }
+						}
+					}
+				}
+			}
+		},
+		{
+			"if": { "properties": { "Type": { "const": "AWS::SQS::QueuePolicy" } } },
+			"then": {
+				"properties": {
+					"Properties": {
+						"type": "object",
+						"properties": {
+							"PolicyDocuments": {},
+							"Queues": { "type": "array" }
+						}
+					}
+				}
+			}
+		}
+	]
+}

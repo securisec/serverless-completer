@@ -1,0 +1,23 @@
+name: build
+
+on:
+  - push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: setup node
+        uses: actions/setup-node@v1.1.0
+        with:
+          node-version: 10.x
+      - name: install and build
+        run: |
+          npm ci
+          npm i -g vsce
+          vsce package
+      - name: upload
+        uses: actions/upload-artifact@v2
+        with:
+          path: ./*.vsix

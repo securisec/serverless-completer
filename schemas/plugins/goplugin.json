@@ -1,0 +1,33 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"type": "object",
+	"description": "[Go plugin](https://github.com/mthenw/serverless-go-plugin)",
+	"properties": {
+    "go": {
+      "description": "[Go plugin](https://github.com/mthenw/serverless-go-plugin)",
+			"type": "object",
+			"properties": {
+				"baseDir": {
+					"type": "string",
+					"default": "\".\"",
+					"description": "folder where go.mod file lives, if set `handler` property should be set relatively to that folder"
+				},
+				"binDir": {
+					"type": "string",
+					"default": ".bin",
+					"description": "target folder for binary files"
+				},
+				"cgo": {
+					"type": "number",
+					"default": 0,
+					"description": "CGO_ENABLED flag"
+				},
+				"cmd": {
+					"type": "string",
+					"default": "GOOS=linux go build -ldflags=\"-s -w\"",
+					"description": "compile command"
+				}
+			}
+		}
+	}
+}
