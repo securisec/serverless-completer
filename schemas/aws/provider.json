@@ -168,7 +168,7 @@
 		"environment": {
 			"type": "object",
 			"properties": {},
-			"description": "Service wide environment variables"
+			"description": "Service wide environment variables. https://www.serverless.com/framework/docs/providers/aws/guide/variables/"
 		},
 		"endpointType": {
 			"type": "string",

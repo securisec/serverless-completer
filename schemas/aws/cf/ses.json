@@ -1,0 +1,129 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "cfses",
+	"description": "cf ses",
+	"properties": {
+		"Type": {
+			"type": "string",
+			"enum": [
+				"AWS::SES::ConfigurationSet",
+				"AWS::SES::ConfigurationSetEventDestination",
+				"AWS::SES::ReceiptFilter",
+				"AWS::SES::ReceiptRule",
+				"AWS::SES::ReceiptRuleSet",
+				"AWS::SES::Template"
+			]
+		}
+	},
+	"anyOf": [
+		{
+			"if": {
+				"properties": { "Type": { "const": "AWS::SES::ConfigurationSet" } }
+			},
+			"then": {
+				"properties": {
+					"Properties": {
+						"type": "object",
+						"description": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ses-configurationset.html",
+						"properties": {
+							"Name": { "type": "string" }
+						}
+					}
+				}
+			}
+		},
+		{
+			"if": {
+				"properties": {
+					"Type": { "const": "AWS::SES::ConfigurationSetEventDestination" }
+				}
+			},
+			"then": {
+				"properties": {
+					"Properties": {
+						"type": "object",
+						"description": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ses-configurationseteventdestination.html",
+						"properties": {
+							"ConfigurationSetName": {},
+							"EventDestination": {}
+						}
+					}
+				}
+			}
+		},
+		{
+			"if": {
+				"properties": {
+					"Type": { "const": "AWS::SES::ReceiptFilter" }
+				}
+			},
+			"then": {
+				"properties": {
+					"Properties": {
+						"type": "object",
+						"description": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ses-receiptfilter.html",
+						"properties": {
+							"Filter": {}
+						}
+					}
+				}
+			}
+		},
+		{
+			"if": {
+				"properties": {
+					"Type": { "const": "AWS::SES::ReceiptRule" }
+				}
+			},
+			"then": {
+				"properties": {
+					"Properties": {
+						"type": "object",
+						"description": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ses-receiptrule.html",
+						"properties": {
+							"After": {},
+							"Rule": {},
+							"RulesSetName": {}
+						}
+					}
+				}
+			}
+		},
+		{
+			"if": {
+				"properties": {
+					"Type": { "const": "AWS::SES::ReceiptRuleSet" }
+				}
+			},
+			"then": {
+				"properties": {
+					"Properties": {
+						"type": "object",
+						"description": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ses-receiptruleset.html",
+						"properties": {
+							"RulesSetName": {}
+						}
+					}
+				}
+			}
+		},
+		{
+			"if": {
+				"properties": {
+					"Type": { "const": "AWS::SES::Template" }
+				}
+			},
+			"then": {
+				"properties": {
+					"Properties": {
+						"type": "object",
+						"description": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ses-template.html",
+						"properties": {
+							"Template": {}
+						}
+					}
+				}
+			}
+		}
+	]
+}

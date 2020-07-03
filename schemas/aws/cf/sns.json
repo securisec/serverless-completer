@@ -1,0 +1,73 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "cfsns",
+	"description": "cf sns",
+	"properties": {
+		"Type": {
+			"type": "string",
+			"enum": [
+				"AWS::SNS::Subscription",
+				"AWS::SNS::Topic",
+				"AWS::SNS::TopicPolicy"
+			]
+		}
+	},
+	"anyOf": [
+		{
+			"if": { "properties": { "Type": { "const": "AWS::SNS::Subscription" } } },
+			"then": {
+				"properties": {
+					"Properties": {
+						"type": "object",
+						"description": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sns-subscription.html",
+						"properties": {
+							"DeliveryPolicy": {},
+							"Endpoint": { "type": "string" },
+							"FilterPolicy": {},
+							"Protocol": { "type": "string" },
+							"RawMessageDelivery": { "type": "boolean" },
+							"RedrivePolicy": {},
+							"Region": { "type": "string" },
+							"TopicArn": { "type": "string" }
+						}
+					}
+				}
+			}
+		},
+		{
+			"if": { "properties": { "Type": { "const": "AWS::SNS::Topic" } } },
+			"then": {
+				"properties": {
+					"Properties": {
+						"description": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html",
+						"type": "object",
+						"properties": {
+							"ContentBasedDeduplication": { "type": "boolean" },
+							"DisplayName": { "type": "string" },
+							"FifoTopic": { "type": "boolean" },
+							"KmsMasterKeyId": { "type": "string" },
+							"Subscription": { "type": "array" },
+							"Tags": { "type": "array" },
+							"TopicName": { "type": "string" }
+						}
+					}
+				}
+			}
+		},
+		{
+			"if": { "properties": { "Type": { "const": "AWS::SNS::TopicPolicy" } } },
+			"then": {
+				"properties": {
+					"Properties": {
+						"description": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-policy.html",
+						"type": "object",
+						"properties": {
+							"PolicyDocument": {},
+							"Topics": {}
+						}
+					}
+				}
+			}
+		}
+	]
+}

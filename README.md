@@ -4,6 +4,11 @@ A VsCode plugin that provides intellisense and linting for `serverless.yml` file
 ## WIP
 Pull requests are very welcome. 
 
+## Help
+Would love pull requests to cover more of the following:
+- CloudFormation resources. Check out examples in `schmemas/aws/cf` directory
+- Other providers like azure, gcp etc
+
 ## Install
 - [VSCode Marketplace](https://marketplace.visualstudio.com/items?itemName=securisec.serverless-completer)
 - Or clone the repo and build with `vsce package` and install VSIX file from VS Code. 

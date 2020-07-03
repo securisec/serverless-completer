@@ -2,6 +2,118 @@
 AWS:
   ☐ https://www.serverless.com/framework/docs/providers/aws/guide/serverless.yml/
 
+  CloudFormation:
+    ACMPCA
+    AccessAnalyzer
+    AmazonMQ
+    Amplify
+    ApiGatewayV2
+    AppConfig
+    AppMesh
+    AppStream
+    AppSync
+    ApplicationAutoScaling
+    Athena
+    AutoScaling
+    AutoScalingPlans
+    Backup
+    Batch
+    Budgets
+    CE
+    Cassandra
+    CertificateManager
+    Chatbot
+    Cloud9
+    CloudFormation
+    CloudFront
+    CloudTrail
+    CloudWatch
+    CodeBuild
+    CodeCommit
+    CodeDeploy
+    CodeGuruProfiler
+    CodePipeline
+    CodeStar
+    CodeStarConnections
+    CodeStarNotifications
+    Cognito
+    Config
+    DAX
+    DLM
+    DMS
+    DataPipeline
+    Detective
+    DirectoryService
+    DocDB
+    EC2
+    ECR
+    ECS
+    EFS
+    EKS
+    EMR
+    ElastiCache
+    ElasticBeanstalk
+    ElasticLoadBalancing
+    ElasticLoadBalancingV2
+    Elasticsearch
+    EventSchemas
+    Events
+    FMS
+    FSx
+    GameLift
+    GlobalAccelerator
+    Glue
+    Greengrass
+    GroundStation
+    GuardDuty
+    ImageBuilder
+    Inspector
+    IoT1Click
+    IoT
+    IoTAnalytics
+    IoTEvents
+    IoTThingsGraph
+    KMS
+    Kinesis
+    KinesisAnalytics
+    KinesisAnalyticsV2
+    KinesisFirehose
+    LakeFormation
+    Logs
+    MSK
+    Macie
+    ManagedBlockchain
+    MediaConvert
+    MediaLive
+    MediaStore
+    Neptune
+    NetworkManager
+    OpsWorks
+    OpsWorksCM
+    Pinpoint
+    PinpointEmail
+    QLDB
+    RAM
+    RDS
+    Redshift
+    ResourceGroups
+    RoboMaker
+    Route53
+    Route53Resolver
+    SDB
+    SageMaker
+    SecretsManager
+    SecurityHub
+    ServiceCatalog
+    ServiceDiscovery
+    StepFunctions
+    Synthetics
+    Transfer
+    WAF
+    WAFRegional
+    WAFv2
+    WorkSpaces
+
 GCP:
 
 Azure:
@@ -13,3 +125,13 @@ Snippets:
 Notes:
 - cf resources rg --no-filename --no-line-number "\+ \[(AWS::\w+::\w+)\]" -o $1 -r "\$1" | rg "[^\s]" | sort -u | uniq
 - iam actions rg --no-filename --no-line-number "\[(\w+:.\w+)\]" -o $1 -r "\$1" | rg "[^\s] | sort -u | uniq
+Archive:
+  ✔ ApiGateway @project(AWS.CloudFormation)
+  ✔ DynamoDB @project(AWS.CloudFormation)
+  ✔ IAM @project(AWS.CloudFormation)
+  ✔ Lambda @project(AWS.CloudFormation)
+  ✔ S3 @project(AWS.CloudFormation)
+  ✔ SES @project(AWS.CloudFormation)
+  ✔ SNS @project(AWS.CloudFormation)
+  ✔ SQS @project(AWS.CloudFormation)
+  ✔ SSM @project(AWS.CloudFormation)

@@ -8,7 +8,17 @@
 			"type": "object",
 			"patternProperties": {
 				"^.*$": {
-					"oneOf": [{ "$ref": "./cf/sqs.json" }]
+					"anyOf": [
+						{ "$ref": "./cf/sqs.json" },
+						{ "$ref": "./cf/sns.json" },
+						{ "$ref": "./cf/ses.json" },
+						{"$ref": "./cf/ssm.json"},
+						{"$ref": "./cf/lambda.json"},
+						{"$ref": "./cf/s3.json"},
+						{"$ref": "./cf/dynamodb.json"},
+						{"$ref": "./cf/iam.json"},
+						{"$ref": "./cf/apigateway.json"}
+					]
 				}
 			}
 		},

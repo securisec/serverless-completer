@@ -1,0 +1,81 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "cfs3",
+	"description": "CF s3",
+	"properties": {
+		"Type": {
+			"type": "string",
+			"enum": [
+				"AWS::S3::AccessPoint",
+				"AWS::S3::Bucket",
+				"AWS::S3::BucketPolicy"
+			]
+		}
+	},
+	"anyOf": [
+		{
+			"if": { "properties": { "Type": { "const": "AWS::S3::AccessPoint" } } },
+			"then": {
+				"properties": {
+					"Properties": {
+						"description": "https:/docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-s3-accesspoint.html",
+						"type": "object",
+						"properties": {
+							"Bucket": {},
+							"CreationDate": {},
+							"Name": {},
+							"NetworkOrigin": {},
+							"Policy": {},
+							"PolicyStatus": {},
+							"PublicAccessBlockConfiguration": {},
+							"VpcConfiguration": {}
+						}
+					}
+				}
+			}
+		},
+		{
+			"if": { "properties": { "Type": { "const": "AWS::S3::BucketPolicy" } } },
+			"then": {
+				"properties": {
+					"Properties": {
+						"description": "https:/docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-policy.html",
+						"type": "object",
+						"properties": { "Bucket": {}, "PolicyDocument": {} }
+					}
+				}
+			}
+		},
+		{
+			"if": { "properties": { "Type": { "const": "AWS::S3::Bucket" } } },
+			"then": {
+				"properties": {
+					"Properties": {
+						"description": "https:/docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html",
+						"type": "object",
+						"properties": {
+							"AccelerateConfiguration": {},
+							"AccessControl": {},
+							"AnalyticsConfigurations": {},
+							"BucketEncryption": {},
+							"BucketName": {},
+							"CorsConfiguration": {},
+							"InventoryConfigurations": {},
+							"LifecycleConfiguration": {},
+							"LoggingConfiguration": {},
+							"MetricsConfigurations": {},
+							"NotificationConfiguration": {},
+							"ObjectLockConfiguration": {},
+							"ObjectLockEnabled": {},
+							"PublicAccessBlockConfiguration": {},
+							"ReplicationConfiguration": {},
+							"Tags": {},
+							"VersioningConfiguration": {},
+							"WebsiteConfiguration": {}
+						}
+					}
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,91 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "cfssm",
+	"description": "CF ssm",
+	"properties": {
+		"Type": {
+			"type": "string",
+			"enum": [
+				"AWS::SecretsManager::ResourcePolicy",
+				"AWS::SecretsManager::RotationSchedule",
+				"AWS::SecretsManager::Secret",
+				"AWS::SecretsManager::SecretTargetAttachment"
+			]
+		}
+	},
+	"anyOf": [
+		{
+			"if": {
+				"properties": {
+					"Type": { "const": "AWS::SecretsManager::ResourcePolicy" }
+				}
+			},
+			"then": {
+				"properties": {
+					"Properties": {
+						"description": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/./aws-resource-secretsmanager-resourcepolicy.html",
+						"type": "object",
+						"properties": { "ResourcePolicy": {}, "SecretId": {} }
+					}
+				}
+			}
+		},
+		{
+			"if": {
+				"properties": {
+					"Type": { "const": "AWS::SecretsManager::SecretTargetAttachment" }
+				}
+			},
+			"then": {
+				"properties": {
+					"Properties": {
+						"description": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/./aws-resource-secretsmanager-secrettargetattachment.html",
+						"type": "object",
+						"properties": { "SecretId": {}, "TargetId": {}, "TargetType": {} }
+					}
+				}
+			}
+		},
+		{
+			"if": {
+				"properties": {
+					"Type": { "const": "AWS::SecretsManager::RotationSchedule" }
+				}
+			},
+			"then": {
+				"properties": {
+					"Properties": {
+						"description": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/./aws-resource-secretsmanager-rotationschedule.html",
+						"type": "object",
+						"properties": {
+							"RotationLambdaARN": {},
+							"RotationRules": {},
+							"SecretId": {}
+						}
+					}
+				}
+			}
+		},
+		{
+			"if": {
+				"properties": { "Type": { "const": "AWS::SecretsManager::Secret" } }
+			},
+			"then": {
+				"properties": {
+					"Properties": {
+						"description": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/./aws-resource-secretsmanager-secret.html",
+						"type": "object",
+						"properties": {
+							"Description": {},
+							"GenerateSecretString": {},
+							"KmsKeyId": {},
+							"Name": {},
+							"SecretString": {},
+							"Tags": {}
+						}
+					}
+				}
+			}
+		}
+	]
+}

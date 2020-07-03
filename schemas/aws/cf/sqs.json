@@ -8,7 +8,7 @@
 			"enum": ["AWS::SQS::Queue", "AWS::SQS::QueuePolicy"]
 		}
 	},
-	"allOf": [
+	"anyOf": [
 		{
 			"if": { "properties": { "Type": { "const": "AWS::SQS::Queue" } } },
 			"then": {
