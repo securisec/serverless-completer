@@ -3,7 +3,7 @@ const Axios = require('axios').default;
 const path = require('path');
 const { writeFileSync } = require('fs');
 
-let basePath = 'AWS_ApiGateway.html';
+let basePath = 'AWS_Elasticsearch.html';
 
 const baseURL =
 	'https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/';

@@ -17,7 +17,12 @@
 						{"$ref": "./cf/s3.json"},
 						{"$ref": "./cf/dynamodb.json"},
 						{"$ref": "./cf/iam.json"},
-						{"$ref": "./cf/apigateway.json"}
+						{"$ref": "./cf/apigateway.json"},
+						{"$ref": "./cf/cognito.json"},
+						{"$ref": "./cf/kms.json"},
+						{"$ref": "./cf/route53.json"},
+						{"$ref": "./cf/stepfunctions.json"},
+						{"$ref": "./cf/elasticsearch.json"}
 					]
 				}
 			}

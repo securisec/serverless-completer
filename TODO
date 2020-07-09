@@ -36,7 +36,6 @@ AWS:
     CodeStar
     CodeStarConnections
     CodeStarNotifications
-    Cognito
     Config
     DAX
     DLM
@@ -73,7 +72,6 @@ AWS:
     IoTAnalytics
     IoTEvents
     IoTThingsGraph
-    KMS
     Kinesis
     KinesisAnalytics
     KinesisAnalyticsV2
@@ -98,7 +96,6 @@ AWS:
     Redshift
     ResourceGroups
     RoboMaker
-    Route53
     Route53Resolver
     SDB
     SageMaker
@@ -106,7 +103,6 @@ AWS:
     SecurityHub
     ServiceCatalog
     ServiceDiscovery
-    StepFunctions
     Synthetics
     Transfer
     WAF
@@ -126,6 +122,10 @@ Notes:
 - cf resources rg --no-filename --no-line-number "\+ \[(AWS::\w+::\w+)\]" -o $1 -r "\$1" | rg "[^\s]" | sort -u | uniq
 - iam actions rg --no-filename --no-line-number "\[(\w+:.\w+)\]" -o $1 -r "\$1" | rg "[^\s] | sort -u | uniq
 Archive:
+  ✔ Cognito @project(AWS.CloudFormation)
+  ✔ KMS @project(AWS.CloudFormation)
+  ✔ Route53 @project(AWS.CloudFormation)
+  ✔ StepFunctions @project(AWS.CloudFormation)
   ✔ ApiGateway @project(AWS.CloudFormation)
   ✔ DynamoDB @project(AWS.CloudFormation)
   ✔ IAM @project(AWS.CloudFormation)

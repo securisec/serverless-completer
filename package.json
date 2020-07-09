@@ -2,7 +2,7 @@
 	"name": "serverless-completer",
 	"displayName": "serverless-completer",
 	"description": "serverless.yml file completer for VSCode",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"author": {
 		"name": "Hapsida @securisec"
 	},
