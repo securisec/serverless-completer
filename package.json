@@ -2,13 +2,13 @@
 	"name": "serverless-completer",
 	"displayName": "serverless-completer",
 	"description": "serverless.yml file completer for VSCode",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"author": {
 		"name": "Hapsida @securisec"
 	},
 	"publisher": "securisec",
 	"repository": {
-		"url": "https://github.com/securisec/code-serverless-completer"
+		"url": "https://github.com/securisec/serverless-completer"
 	},
 	"keywords": [
 		"serverless",
